@@ -1,0 +1,28 @@
+{
+  "name": "vue-cli-plugin-cordova-cli",
+  "version": "1.0.0",
+  "description": "将cordova集成到vue-cli 3.x项目中",
+  "main": "generator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jk123mj/vue-cli-plugin-cordova-cli.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jk123mj/vue-cli-plugin-cordova-cli/issues"
+  },
+  "homepage": "https://github.com/jk123mj/vue-cli-plugin-cordova-cli#readme",
+  "dependencies": {
+    "hasbin": "^1.2.3",
+    "html-webpack-include-assets-plugin": "^2.0.0"
+  },
+  "devDependencies": {
+    "@vue/cli-shared-utils": "^5.0.4",
+    "cross-spawn": "^7.0.3"
+  }
+}
