@@ -28,7 +28,7 @@ module.exports = (api, options) => {
     }
     api.extendPackage({
         scripts: {
-            'cordova-serve-android': 'cross-env C_PLATFORM=android vue-cli-service cordova-serve --platform=android'
+            'cordova-serve-android': 'cross-env C_PLATFORM=android vue-cli-service cordova-serve --platform=android --config="./cordova.config.json"'
         },
         vue: {
             publicPath: './',
@@ -48,6 +48,12 @@ module.exports = (api, options) => {
             })
             fs.writeFileSync(ignorePath, ignoreCont + appendCont)
             api.exitLog(`更新${ignorePath}内容`)
+
+            // 添加cordova.config.json
+            const cordovaConfigPath = api.resolve('cordova.config.json')
+            const cordovaConfigCont = fs.readFileSync('./config.json',{encoding: 'utf-8'})
+            fs.writeFileSync(cordovaConfigPath,cordovaConfigCont)
+            api.exitLog(`添加文件: ${cordovaConfigPath}`)
             api.exitLog(`执行cordova create ${_options.cordovaPath} ${_options.id} ${_options.appName}`)
             spawn.sync('cordova', [
                 'create',

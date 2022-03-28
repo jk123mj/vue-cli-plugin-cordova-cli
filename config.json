@@ -1,0 +1,18 @@
+{
+  "production": {
+    "android": {
+      "baseUrl": "index.html"
+    },
+    "ios": {
+      "baseUrl": "index.html"
+    }
+  },
+  "development": {
+    "android": {
+      "baseUrl": "index.html"
+    },
+    "ios": {
+      "baseUrl": "index.html"
+    }
+  }
+}

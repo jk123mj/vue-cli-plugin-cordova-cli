@@ -19,7 +19,7 @@ module.exports = (api, options) => {
                 webpackConfig.plugin('cordova')
                     .use(HtmlWebpackIncludeAssetsPlugin, [{
                         append: false,
-                        scripts: '/cordova.js',
+                        scripts: 'cordova.js',
                         publicPath: false
                     }])
             })
