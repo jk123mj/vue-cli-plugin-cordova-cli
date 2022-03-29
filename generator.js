@@ -34,7 +34,6 @@ module.exports = (api, options) => {
         vue: {
             publicPath: './',
             pluginOptions: {
-                cordovaPath: _options.cordovaPath
             }
         }
     })
