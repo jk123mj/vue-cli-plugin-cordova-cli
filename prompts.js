@@ -2,13 +2,6 @@ const defaultConfig = require('./default')
 
 module.exports = [
     {
-        name: 'cordovaPath',
-        type: 'string',
-        message: '指定cordova构建路径',
-        default: defaultConfig.cordovaPath,
-        validate: input => input && input.trim().length
-    },
-    {
         name: 'id',
         type: 'string',
         message: '指定app id',

@@ -7,6 +7,12 @@ const defaultConfig = require('./default')
 module.exports = (api, options) => {
     const cordovaPath = options.pluginOptions.cordovaPath || defaultConfig.cordovaPath
     const runServe = async (args) => {
+        // todo 参数判断
+        switch (false) {
+            case !!args.platform:
+                error('缺少')
+                break
+        }
         let platforms = []
         defaultConfig.platforms.forEach(v=>{
             if(fs.existsSync(api.resolve(`${cordovaPath}/platforms/${v}`))){
@@ -25,7 +31,7 @@ module.exports = (api, options) => {
             })
             // devServe添加指定路由器
             api.configureDevServer(app=>{
-                app.get('/cordova.js', (req,res)=>{
+                app.get('cordova.js', (req,res)=>{
                     const _path = `${cordovaPath}/platforms/${args.platform}/platform_www/cordova.js`
                     if(fs.readFileSync(_path)){
                         const fileContent = fs.readFileSync(_path, {encoding:'utf-8'})

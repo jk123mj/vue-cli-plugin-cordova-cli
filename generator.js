@@ -1,11 +1,12 @@
 const fs = require('fs')
-const hasbin = require('hasbin')
 const spawn = require('cross-spawn')
-
 const defaultConfig = require('./default')
+
 module.exports = (api, options) => {
     const _options = {...options, ...defaultConfig}
     const packagePath = api.resolve('package.json')
+
+    // 检查cordova是否安装
     if (fs.existsSync(packagePath)) {
         const packageCont = fs.readFileSync(packagePath, {encoding: 'utf-8'})
         if ((JSON.parse(packageCont).devDependencies || {}).cordova) {
@@ -28,7 +29,7 @@ module.exports = (api, options) => {
     }
     api.extendPackage({
         scripts: {
-            'cordova-serve-android': 'cross-env C_PLATFORM=android vue-cli-service cordova-serve --platform=android --config="./cordova.config.json"'
+            'cordova-serve-android': 'vue-cli-service cordova-serve --platform=android --config="./cordova.config.json"'
         },
         vue: {
             publicPath: './',
@@ -39,6 +40,7 @@ module.exports = (api, options) => {
     })
 
     api.onCreateComplete(() => {
+        // 更新.gitignore文件
         const ignorePath = api.resolve('.gitignore')
         if (fs.existsSync(ignorePath)) {
             const ignoreCont = fs.readFileSync(ignorePath, {encoding: 'utf-8'})
@@ -65,9 +67,13 @@ module.exports = (api, options) => {
                 stdio: 'inherit',
                 encoding: 'utf-8'
             })
+
+            // 添加src-cordova/www/.gitignore
             const wwwIgnorePath = api.resolve(`${_options.cordovaPath}/www/.gitignore`)
             api.exitLog(`创建文件: ${wwwIgnorePath}`)
             fs.writeFileSync(wwwIgnorePath, _options.gitIgnoreContent)
+
+            // 构建平台
             _options.platforms.forEach(v => {
                 api.exitLog(`构建${v}平台`)
                 spawn.sync('cordova', [
@@ -81,13 +87,15 @@ module.exports = (api, options) => {
                     encoding: 'utf-8'
                 })
             })
+
+            // 注入钩子
             const configPath = api.resolve(`${_options.cordovaPath}/config.xml`)
             if (fs.existsSync(configPath)) {
                 api.exitLog(`更新文件: ${configPath}`)
                 const configCont = fs.readFileSync(configPath, {encoding: 'utf-8'})
                 const lines = configCont.split(/\r?\n/g)
                 const contentIndex = lines.findIndex(v => v.test(/\s+<content/))
-                lines.splice(contentIndex, 0, '    <hook type="after_prepare" src="../node_modules/vue-cli-plugin-cordova-cli/forward-server.js" />')
+                lines.splice(contentIndex, 0, '    <hook type="before_compile" src="../node_modules/vue-cli-plugin-cordova-cli/forward-server.js" />')
                 fs.writeFileSync(configPath, lines.join('\n'))
             } else {
                 api.exitLog(`未检测到${_options.cordovaPath}中包含config.xml文件`, 'error')
