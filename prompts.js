@@ -6,14 +6,14 @@ module.exports = [
         type: 'string',
         message: '指定app id',
         default: defaultConfig.id,
-        validate: opt => opt && input && input.trim().length
+        validate: opt => opt && opt.trim().length
     },
     {
         name: 'appName',
         type: 'string',
         message: '指定app Name',
         default: defaultConfig.appName,
-        validate: opt => opt && input && input.trim().length
+        validate: opt => opt && opt.trim().length
     },
     {
         name: 'platforms',
