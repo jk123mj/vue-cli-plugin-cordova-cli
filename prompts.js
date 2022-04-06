@@ -14,20 +14,5 @@ module.exports = [
         message: '指定app Name',
         default: defaultConfig.appName,
         validate: opt => opt && !!opt.trim().length
-    },
-    {
-        name: 'platforms',
-        type: 'checkbox',
-        message: '指定平台:',
-        choices: [
-            {
-                name: 'Android',
-                value: 'android'
-            },
-            {
-                name: 'iOS',
-                value: 'ios'
-            }
-        ]
     }
 ]

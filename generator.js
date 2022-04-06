@@ -10,6 +10,8 @@ module.exports = (api, options) => {
     if (fs.existsSync(packagePath)) {
         const packageCont = fs.readFileSync(packagePath, {encoding: 'utf-8'})
         if ((JSON.parse(packageCont).devDependencies || {}).cordova) {
+            api.exitLog((JSON.parse(packageCont).devDependencies || {}).cordova)
+            api.exitLog('cordova已安装')
         } else {
             api.exitLog('未发现安装cordova,将安装cordova到项目中')
             spawn.sync('npm', [
@@ -53,7 +55,7 @@ module.exports = (api, options) => {
 
             // 添加cordova.config.json
             const cordovaConfigPath = api.resolve('cordova.config.json')
-            const cordovaConfigCont = fs.readFileSync('./config.json',{encoding: 'utf-8'})
+            const cordovaConfigCont = fs.readFileSync(__dirname + './config.json',{encoding: 'utf-8'})
             fs.writeFileSync(cordovaConfigPath,cordovaConfigCont)
             api.exitLog(`添加文件: ${cordovaConfigPath}`)
             api.exitLog(`执行cordova create ${_options.cordovaPath} ${_options.id} ${_options.appName}`)
