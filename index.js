@@ -1,7 +1,7 @@
 const spawn = require('cross-spawn')
 const fs = require('fs')
 const {info, error} = require('@vue/cli-shared-utils')
-const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-tags-plugin')
 const defaultConfig = require('./default')
 
 module.exports = (api, options) => {
