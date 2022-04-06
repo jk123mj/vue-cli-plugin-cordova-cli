@@ -2,7 +2,7 @@
   "name": "vue-cli-plugin-cordova-cli",
   "version": "1.0.0",
   "description": "将cordova集成到vue-cli 3.x项目中",
-  "main": "generator.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
