@@ -487,7 +487,7 @@ get-stream@^4.0.0:
   dependencies:
     pump "^3.0.0"
 
-glob@^7.1.3:
+glob@^7.1.3, glob@^7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.2.0.tgz#d15535af7732e02e948f4c41628bd910293f6023"
   integrity sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==
@@ -565,6 +565,15 @@ html-webpack-plugin@^5.5.0:
     lodash "^4.17.21"
     pretty-error "^4.0.0"
     tapable "^2.0.0"
+
+html-webpack-tags-plugin@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/html-webpack-tags-plugin/-/html-webpack-tags-plugin-3.0.2.tgz#eefc6600e45b36605e8f91bbd497fc7f4f6d2d8c"
+  integrity sha512-jZ4IHjT8AWyNa4RJ+8p0+AGkunLf1H5E/IjzW+9BOQbJ39Dy2jZULnxseXsEAiFxu6DX6z+sOZKV9rhbEDtpqA==
+  dependencies:
+    glob "^7.2.0"
+    minimatch "^3.0.4"
+    slash "^3.0.0"
 
 htmlparser2@^6.1.0:
   version "6.1.0"
@@ -1079,6 +1088,11 @@ slash@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/slash/-/slash-2.0.0.tgz#de552851a1759df3a8f206535442f5ec4ddeab44"
   integrity sha512-ZYKh3Wh2z1PpEXWr0MpSBZ0V6mZHAQfYevttO11c51CaWjGTaadiKZ+wVt1PbMlDV5qhMFslpZCemhwOK7C89A==
+
+slash@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
+  integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
 
 source-map-support@~0.5.20:
   version "0.5.21"
