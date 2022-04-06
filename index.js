@@ -53,7 +53,7 @@ module.exports = (api, options) => {
 
             // 设置环境变量
             process.env.CORDOVA_SERVER_URL = serverUrl
-            // todo ios缺少路径
+
             process.env.CORDOVA_CONFIG_URL = api.resolve(`${defaultConfig.cordovaPath}/platforms/${args.platform}/app/src/main/res/xml/config.xml`)
 
             // 执行 cordova clean
@@ -105,13 +105,14 @@ module.exports = (api, options) => {
         // 执行 run build
         await api.service.run('build', {
             mode: args.mode,
-            dest: defaultConfig.cordovaPath + '/www'
+            // dest: defaultConfig.cordovaPath + '/www'
+            dest: 'dist'
         })
-        // 设置环境变量
-        const configCont = fs.readFileSync(args.config, {encoding: 'utf-8'})
+        const configUrl = api.resolve(args.config)
+        const configCont = fs.readFileSync(configUrl, {encoding: 'utf-8'})
         const configFormatCont = JSON.parse(configCont)
+        // 设置环境变量
         process.env.CORDOVA_SERVER_URL = configFormatCont[args.mode][args.platform].baseUrl
-        // todo ios缺少路径
         process.env.CORDOVA_CONFIG_URL = api.resolve(`${defaultConfig.cordovaPath}/platforms/${args.platform}/app/src/main/res/xml/config.xml`)
         // 执行 cordova clean
         info(`执行 cordova clean ${args.platform}`)
@@ -121,19 +122,42 @@ module.exports = (api, options) => {
             stdio: 'inherit',
             encoding: 'utf-8'
         })
-        // todo 生产和测试区分
         // 执行 cordova build
+        const buildConfigUrl = api.resolve(`${defaultConfig.cordovaPath}/build.json`)
+        const buildConfigCont = {
+            "android": {
+                "debug": {
+                    "keystore": api.resolve(configFormatCont.development.android.keystore),
+                    "storePassword": configFormatCont.development.android.storePassword,
+                    "alias": configFormatCont.development.android.alias,
+                    "password": configFormatCont.development.android.password,
+                    "keystoreType": configFormatCont.development.android.keystoreType,
+                    "packageType": configFormatCont.development.android.packageType
+                },
+                "release": {
+                    "keystore": api.resolve(configFormatCont.production.android.keystore),
+                    "storePassword": configFormatCont.production.android.storePassword,
+                    "alias": configFormatCont.production.android.alias,
+                    "password": configFormatCont.production.android.password,
+                    "keystoreType": configFormatCont.development.android.keystoreType,
+                    "packageType": configFormatCont.production.android.packageType
+                }
+            }
+        }
+        fs.writeFileSync(buildConfigUrl, JSON.stringify(buildConfigCont))
+        const way = args.mode === 'development'? '--debug': '--release'
         info(`执行 cordova build ${args.platform}`)
         spawn.sync('cordova', [
             'build',
-            args.platform
+            args.platform,
+            way,
+            '--buildConfig=./build.json'
         ], {
             cwd: api.resolve(defaultConfig.cordovaPath),
             env: process.env,
             stdio: 'inherit',
             encoding: 'utf-8'
         })
-
     }
     api.registerCommand('cordova-serve', async args => {
         // --platform --mode

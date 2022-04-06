@@ -19,7 +19,8 @@
   "homepage": "https://github.com/jk123mj/vue-cli-plugin-cordova-cli#readme",
   "dependencies": {
     "hasbin": "^1.2.3",
-    "html-webpack-include-assets-plugin": "^2.0.0"
+    "html-webpack-include-assets-plugin": "^2.0.0",
+    "html-webpack-plugin": "^5.5.0"
   },
   "devDependencies": {
     "@vue/cli-shared-utils": "^5.0.4",

@@ -1,18 +1,24 @@
 {
-  "production": {
-    "android": {
-      "baseUrl": "index.html"
-    },
-    "ios": {
-      "baseUrl": "index.html"
-    }
-  },
   "development": {
     "android": {
-      "baseUrl": "index.html"
-    },
-    "ios": {
-      "baseUrl": "index.html"
+      "baseUrl": "index.html",
+      "keystore": "",
+      "storePassword": "",
+      "alias": "",
+      "password": "",
+      "keystoreType": "",
+      "packageType": ""
+    }
+  },
+  "production": {
+    "android": {
+      "baseUrl": "index.html",
+      "keystore": "",
+      "storePassword": "",
+      "alias": "",
+      "password": "",
+      "keystoreType": "",
+      "packageType": ""
     }
   }
 }

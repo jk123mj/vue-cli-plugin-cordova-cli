@@ -4,31 +4,7 @@ const spawn = require('cross-spawn')
 const defaultConfig = require('./default')
 
 module.exports = (api, options) => {
-    const _options = {...options, ...defaultConfig}
-
-    // // 检查cordova是否安装
-    // if (fs.existsSync(packagePath)) {
-    //     const packageCont = fs.readFileSync(packagePath, {encoding: 'utf-8'})
-    //     if ((JSON.parse(packageCont).devDependencies || {}).cordova) {
-    //         api.exitLog((JSON.parse(packageCont).devDependencies || {}).cordova)
-    //         api.exitLog('cordova已安装')
-    //     } else {
-    //         api.exitLog('未发现安装cordova,将安装cordova到项目中')
-    //         spawn.sync('npm', [
-    //             'i',
-    //             'cordova',
-    //             '--save-dev'
-    //         ], {
-    //             env: process.env,
-    //             stdio: 'inherit',
-    //             encoding: 'utf-8'
-    //         })
-    //         api.exitLog('cordova安装完成')
-    //     }
-    // } else {
-    //     api.exitLog('未检测到项目中包含package.json文件', 'error')
-    //     return false
-    // }
+    const _options = {...defaultConfig, ...options}
     const hasCordova = hasbin.sync('cordova')
     if(hasCordova){
         api.exitLog('cordova已安装')
