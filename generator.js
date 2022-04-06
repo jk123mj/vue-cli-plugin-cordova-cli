@@ -112,7 +112,7 @@ module.exports = (api, options) => {
                 api.exitLog(`更新文件: ${configPath}`)
                 const configCont = fs.readFileSync(configPath, {encoding: 'utf-8'})
                 const lines = configCont.split(/\r?\n/g)
-                const contentIndex = lines.findIndex(v => v.test(/\s+<content/))
+                const contentIndex = lines.findIndex(v => /\s+<content/.test(v))
                 lines.splice(contentIndex, 0, '    <hook type="before_compile" src="../node_modules/vue-cli-plugin-cordova-cli/forward-server.js" />')
                 fs.writeFileSync(configPath, lines.join('\n'))
             } else {
