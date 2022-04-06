@@ -1,5 +1,6 @@
-const spawn = require('cross-spawn')
 const fs = require('fs')
+const spawn = require('cross-spawn')
+const address = require('address')
 const {info, error} = require('@vue/cli-shared-utils')
 const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-tags-plugin')
 const defaultConfig = require('./default')
@@ -32,23 +33,47 @@ module.exports = (api, options) => {
             })
             // devServe添加指定路由器
             api.configureDevServer(app => {
-                app.get('/cordova.js', (req, res) => {
-                    const _path = `${defaultConfig.cordovaPath}/platforms/${args.platform}/platform_www/cordova.js`
-                    if (fs.readFileSync(_path)) {
-                        const fileContent = fs.readFileSync(_path, {encoding: 'utf-8'})
-                        res.send(fileContent)
+                app.use((req,res,next)=>{
+                    if(/^\/(cordova|plugins).*/.test(req.url)){ // todo
+
+                    }
+                    if(req.url!=='/'){
+                        console.log(req.url)
+                        const _path = `${defaultConfig.cordovaPath}/platforms/${args.platform}/platform_www/${req.url}`
+                        if (fs.existsSync(_path)) {
+                            const fileContent = fs.readFileSync(_path, {encoding: 'utf-8'})
+                            res.send(fileContent)
+                        }
+                    } else {
+                        next()
                     }
                 })
+                // app.get('/cordova.js', (req, res) => {
+                //     console.log(req.url)
+                //     const _path = `${defaultConfig.cordovaPath}/platforms/${args.platform}/platform_www/${req.url}`
+                //     if (fs.existsSync(_path)) {
+                //         const fileContent = fs.readFileSync(_path, {encoding: 'utf-8'})
+                //         res.send(fileContent)
+                //     }
+                // })
+                // app.get('/cordova_plugins.js', (req, res) => {
+                //     console.log(req.url)
+                //     const _path = `${defaultConfig.cordovaPath}/platforms/${args.platform}/platform_www/${req.url}`
+                //     if (fs.existsSync(_path)) {
+                //         const fileContent = fs.readFileSync(_path, {encoding: 'utf-8'})
+                //         res.send(fileContent)
+                //     }
+                // })
             })
             // 执行 run serve
-            const serverUrl = `${options.devServer.https ? 'https' : 'http'}://${options.devServer.host}:${options.devServer.port}`
+            const serverUrl = `https://${address.ip()}:${options.devServer.port||'8080'}`
             const server = await api.service.run('serve', {
                 open: options.devServer.open,
                 copy: args.copy,
                 mode: args.mode,
-                host: options.devServer.host,
-                port: options.devServer.port,
-                https: options.devServer.https
+                host: options.devServer.host|| '0.0.0.0',
+                port: options.devServer.port|| '8080',
+                https: true
             })
 
             // 设置环境变量
