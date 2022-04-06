@@ -55,7 +55,7 @@ module.exports = (api, options) => {
 
             // 添加cordova.config.json
             const cordovaConfigPath = api.resolve('cordova.config.json')
-            const cordovaConfigCont = fs.readFileSync(__dirname + './config.json',{encoding: 'utf-8'})
+            const cordovaConfigCont = fs.readFileSync(__dirname + '/config.json',{encoding: 'utf-8'})
             fs.writeFileSync(cordovaConfigPath,cordovaConfigCont)
             api.exitLog(`添加文件: ${cordovaConfigPath}`)
             api.exitLog(`执行cordova create ${_options.cordovaPath} ${_options.id} ${_options.appName}`)
