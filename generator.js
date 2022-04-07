@@ -23,13 +23,9 @@ module.exports = (api, options) => {
     }
     api.extendPackage({
         scripts: {
-            'cordova-serve-android': 'vue-cli-service cordova-serve --platform=android --mode=development',
-            'cordova-build-android-dev': 'vue-cli-service cordova-build --platform=android --mode=development --config="./cordova.config.json"'
-        },
-        vue: {
-            publicPath: './',
-            pluginOptions: {
-            }
+            'android-prod-build': 'vue-cli-service cordova-build --platform=android --mode=production --config="./cordova.config.json"',
+            'android-dev-build': 'vue-cli-service cordova-build --platform=android --mode=development --config="./cordova.config.json"',
+            'cordova-serve-android': 'vue-cli-service cordova-serve --platform=android --mode=development'
         }
     })
 
@@ -62,10 +58,7 @@ module.exports = (api, options) => {
                 encoding: 'utf-8'
             })
 
-            // 添加src-cordova/www/.gitignore
-            const wwwIgnorePath = api.resolve(`${_options.cordovaPath}/www/.gitignore`)
-            api.exitLog(`创建文件: ${wwwIgnorePath}`)
-            fs.writeFileSync(wwwIgnorePath, _options.gitIgnoreContent)
+            resetCordovaWWWHandler(api)
 
             // 构建平台
             _options.platforms.forEach(v => {
@@ -100,4 +93,12 @@ module.exports = (api, options) => {
             return false
         }
     })
+}
+/**
+ * 重置cordova项目下www
+ * */
+function resetCordovaWWWHandler(api){
+    fs.rmSync(api.resolve(`${defaultConfig.cordovaPath}/www`), {force: true, recursive: true})
+    fs.mkdirSync(api.resolve(`${defaultConfig.cordovaPath}/www`))
+    fs.writeFileSync(api.resolve(`${defaultConfig.cordovaPath}/www/index.html`), '')
 }
