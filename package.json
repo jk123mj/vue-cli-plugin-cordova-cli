@@ -19,7 +19,8 @@
   "homepage": "https://github.com/jk123mj/vue-cli-plugin-cordova-cli#readme",
   "dependencies": {
     "hasbin": "^1.2.3",
-    "html-webpack-tags-plugin": "^3.0.2"
+    "html-webpack-tags-plugin": "^3.0.2",
+    "portfinder": "^1.0.28"
   },
   "devDependencies": {
     "@vue/cli-shared-utils": "^5.0.4",

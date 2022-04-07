@@ -1,6 +1,7 @@
 const fs = require('fs')
 const spawn = require('cross-spawn')
 const address = require('address')
+const portfinder = require('portfinder')
 const {info, error} = require('@vue/cli-shared-utils')
 const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-tags-plugin')
 const defaultConfig = require('./default')
@@ -34,11 +35,7 @@ module.exports = (api, options) => {
             // devServe添加指定路由器
             api.configureDevServer(app => {
                 app.use((req,res,next)=>{
-                    if(/^\/(cordova|plugins).*/.test(req.url)){ // todo
-
-                    }
-                    if(req.url!=='/'){
-                        console.log(req.url)
+                    if(/^\/(cordova|plugins).*/.test(req.url)){
                         const _path = `${defaultConfig.cordovaPath}/platforms/${args.platform}/platform_www/${req.url}`
                         if (fs.existsSync(_path)) {
                             const fileContent = fs.readFileSync(_path, {encoding: 'utf-8'})
@@ -47,7 +44,20 @@ module.exports = (api, options) => {
                     } else {
                         next()
                     }
+
+                    // if(req.url!=='/'){
+                    //     console.log(req.url)
+                    //     console.log(/^\/(cordova|plugins).*/.test(req.url))
+                    //     const _path = `${defaultConfig.cordovaPath}/platforms/${args.platform}/platform_www/${req.url}`
+                    //     if (fs.existsSync(_path)) {
+                    //         const fileContent = fs.readFileSync(_path, {encoding: 'utf-8'})
+                    //         res.send(fileContent)
+                    //     }
+                    // } else {
+                    //     next()
+                    // }
                 })
+
                 // app.get('/cordova.js', (req, res) => {
                 //     console.log(req.url)
                 //     const _path = `${defaultConfig.cordovaPath}/platforms/${args.platform}/platform_www/${req.url}`
@@ -66,19 +76,21 @@ module.exports = (api, options) => {
                 // })
             })
             // 执行 run serve
-            const serverUrl = `https://${address.ip()}:${options.devServer.port||'8080'}`
+            let port = options.devServer.port || '8080'
+            portfinder.basePort = port
+            port = await portfinder.getPortPromise()
+            const serverUrl = `https://${address.ip()}:${port}`
             const server = await api.service.run('serve', {
                 open: options.devServer.open,
                 copy: args.copy,
                 mode: args.mode,
                 host: options.devServer.host|| '0.0.0.0',
-                port: options.devServer.port|| '8080',
+                port: port,
                 https: true
             })
 
             // 设置环境变量
             process.env.CORDOVA_SERVER_URL = serverUrl
-
             process.env.CORDOVA_CONFIG_URL = api.resolve(`${defaultConfig.cordovaPath}/platforms/${args.platform}/app/src/main/res/xml/config.xml`)
 
             // 执行 cordova clean
