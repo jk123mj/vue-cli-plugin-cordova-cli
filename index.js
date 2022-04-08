@@ -163,8 +163,8 @@ function homeImportCordovaJsHandler(api) {
     api.chainWebpack(webpackConfig => {
         webpackConfig.plugin('cordova')
             .use(HtmlWebpackIncludeAssetsPlugin, [{
+                assets: 'cordova.js',
                 append: false,
-                scripts: 'cordova.js',
                 publicPath: false
             }])
     })
