@@ -82,7 +82,7 @@ module.exports = (api, options) => {
                 const configCont = fs.readFileSync(configPath, {encoding: 'utf-8'})
                 const lines = configCont.split(/\r?\n/g)
                 const contentIndex = lines.findIndex(v => /\s+<content/.test(v))
-                lines.splice(contentIndex, 0, '    <hook type="before_compile" src="../node_modules/vue-cli-plugin-cordova-cli/forward-server.js" />')
+                lines.splice(contentIndex, 0, '    <hook type="after_prepare" src="../node_modules/vue-cli-plugin-cordova-cli/forward-server.js" />')
                 fs.writeFileSync(configPath, lines.join('\n'))
             } else {
                 api.exitLog(`未检测到${_options.cordovaPath}中包含config.xml文件`, 'error')
