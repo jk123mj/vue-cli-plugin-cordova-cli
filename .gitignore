@@ -2,10 +2,8 @@
 node_modules
 /dist
 .cz-config.js
+.eslintrc.js
 
-# local env files
-.env.local
-.env.*.local
 
 # Log files
 npm-debug.log*
