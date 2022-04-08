@@ -22,6 +22,7 @@
     "address": "^1.1.2",
     "cross-spawn": "^7.0.3",
     "hasbin": "^1.2.3",
+    "html-webpack-plugin": "^5.5.0",
     "html-webpack-tags-plugin": "^3.0.2",
     "portfinder": "^1.0.28"
   },

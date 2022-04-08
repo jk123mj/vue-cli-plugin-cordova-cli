@@ -23,9 +23,9 @@ module.exports = (api, options) => {
     }
     api.extendPackage({
         scripts: {
+            'android-serve': 'vue-cli-service cordova-serve --platform=android --mode=development',
             'android-prod-build': 'vue-cli-service cordova-build --platform=android --mode=production --config="./cordova.config.json"',
             'android-dev-build': 'vue-cli-service cordova-build --platform=android --mode=development --config="./cordova.config.json"',
-            'cordova-serve-android': 'vue-cli-service cordova-serve --platform=android --mode=development'
         }
     })
 
