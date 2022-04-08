@@ -4,7 +4,7 @@ const spawn = require('cross-spawn')
 const address = require('address')
 const portfinder = require('portfinder')
 const {info, error} = require('@vue/cli-shared-utils')
-const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-tags-plugin')
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
 const defaultConfig = require('./default')
 
 module.exports = (api, options) => {
