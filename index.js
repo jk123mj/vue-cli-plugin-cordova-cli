@@ -42,6 +42,7 @@ module.exports = (api, options) => {
 
             // 设置环境变量
             process.env.CORDOVA_SERVER_URL = serverUrl
+            process.env.CORDOVA_APP_ID_SUFFIX = '.run.serve'
             process.env.CORDOVA_CONFIG_URL = api.resolve(`${defaultConfig.cordovaPath}/platforms/${args.platform}/app/src/main/res/xml/config.xml`)
 
             execCordovaCleanHandler(api, args)
@@ -79,6 +80,7 @@ module.exports = (api, options) => {
         const configFormatCont = JSON.parse(configCont)
         // 设置环境变量
         process.env.CORDOVA_SERVER_URL = configFormatCont[args.mode][args.platform].baseUrl
+        process.env.CORDOVA_APP_ID_SUFFIX = args.mode === 'development' ? '.dev' : ''
         process.env.CORDOVA_CONFIG_URL = api.resolve(`${defaultConfig.cordovaPath}/platforms/${args.platform}/app/src/main/res/xml/config.xml`)
         // 执行 run build
         await api.service.run('build', {
@@ -126,8 +128,8 @@ module.exports = (api, options) => {
             stdio: 'inherit',
             encoding: 'utf-8'
         })
-        buildProcess.on('close', ()=>{
-            if(processError){
+        buildProcess.on('close', () => {
+            if (processError) {
                 return false
             }
             if (process.env.CORDOVA_SERVER_URL !== 'index.html') {
@@ -138,8 +140,8 @@ module.exports = (api, options) => {
                 info(`apk已生成`)
             }
         })
-        buildProcess.on('error', error=>{
-            if(processError){
+        buildProcess.on('error', error => {
+            if (processError) {
                 return false
             }
             processError = error
@@ -205,7 +207,7 @@ function execCordovaCleanHandler(api, args) {
 /**
  * 重置cordova项目下www
  * */
-function resetCordovaWWWHandler(api){
+function resetCordovaWWWHandler(api) {
     fs.rmSync(api.resolve(`${defaultConfig.cordovaPath}/www`), {force: true, recursive: true})
     fs.mkdirSync(api.resolve(`${defaultConfig.cordovaPath}/www`))
     fs.writeFileSync(api.resolve(`${defaultConfig.cordovaPath}/www/index.html`), '')
@@ -214,7 +216,7 @@ function resetCordovaWWWHandler(api){
 /**
  * 移动cordova文件处理
  * */
-function moveCordovaFileHandler(api, args){
+function moveCordovaFileHandler(api, args) {
     const prefixUrl = api.resolve(`${defaultConfig.cordovaPath}/platforms/${args.platform}/app/src/main/assets/www`)
     fs.writeFileSync(path.resolve('dist', 'cordova.js'), fs.readFileSync(path.resolve(prefixUrl, 'cordova.js')))
     if (fs.existsSync(path.resolve(prefixUrl, 'cordova_plugins.js'))) {
