@@ -85,11 +85,12 @@ module.exports = (api, options) => {
         // 执行 run build
         await api.service.run('build', {
             mode: args.mode,
-            dest: process.env.CORDOVA_SERVER_URL === 'index.html' ? `${defaultConfig.cordovaPath}/www` : 'dist'
+            dest: 'dist'
         })
         execCordovaCleanHandler(api, args)
-        if (process.env.CORDOVA_SERVER_URL !== 'index.html') {
-            resetCordovaWWWHandler(api)
+        resetCordovaWWWHandler(api)
+        if (process.env.CORDOVA_SERVER_URL === 'index.html') {
+            copyFolderHandler(path.resolve('dist'), path.resolve(`${defaultConfig.cordovaPath}/www` ))
         }
         // 执行 cordova build
         const buildConfigUrl = api.resolve(`${defaultConfig.cordovaPath}/build.json`)
