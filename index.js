@@ -30,7 +30,7 @@ module.exports = (api, options) => {
             let port = options.devServer.port || '8080'
             portfinder.basePort = port
             port = await portfinder.getPortPromise()
-            const serverUrl = `https://${address.ip()}:${port}`
+            const serverUrl = args.address||`https://${address.ip()}:${port}`
             const server = await api.service.run('serve', {
                 open: options.devServer.open,
                 copy: args.copy,
