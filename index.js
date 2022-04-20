@@ -30,14 +30,14 @@ module.exports = (api, options) => {
             let port = options.devServer.port || '8080'
             portfinder.basePort = port
             port = await portfinder.getPortPromise()
-            const serverUrl = args.address||`https://${address.ip()}:${port}`
+            const serverUrl = args.address || `https://${address.ip()}:${port}`
             const server = await api.service.run('serve', {
                 open: options.devServer.open,
                 copy: args.copy,
                 mode: args.mode,
                 host: options.devServer.host || '0.0.0.0',
                 port: port,
-                https: true
+                https: args.address ? /https:/.test(args.address) : true
             })
 
             // 设置环境变量
@@ -90,7 +90,7 @@ module.exports = (api, options) => {
         execCordovaCleanHandler(api, args)
         resetCordovaWWWHandler(api)
         if (process.env.CORDOVA_SERVER_URL === 'index.html') {
-            copyFolderHandler(path.resolve('dist'), path.resolve(`${defaultConfig.cordovaPath}/www` ))
+            copyFolderHandler(path.resolve('dist'), path.resolve(`${defaultConfig.cordovaPath}/www`))
         }
         // 执行 cordova build
         const buildConfigUrl = api.resolve(`${defaultConfig.cordovaPath}/build.json`)
