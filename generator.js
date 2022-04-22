@@ -100,5 +100,5 @@ module.exports = (api, options) => {
 function resetCordovaWWWHandler(api){
     fs.rmSync(api.resolve(`${defaultConfig.cordovaPath}/www`), {force: true, recursive: true})
     fs.mkdirSync(api.resolve(`${defaultConfig.cordovaPath}/www`))
-    fs.writeFileSync(api.resolve(`${defaultConfig.cordovaPath}/www/index.html`), '')
+    // fs.writeFileSync(api.resolve(`${defaultConfig.cordovaPath}/www/index.html`), '')
 }
