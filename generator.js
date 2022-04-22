@@ -35,7 +35,7 @@ module.exports = (api, options) => {
         if (fs.existsSync(ignorePath)) {
             const ignoreCont = fs.readFileSync(ignorePath, {encoding: 'utf-8'})
             let appendCont = '\n# Cordova\n'
-            ;['platforms', 'plugins'].forEach(v => {
+            ;['platforms', 'plugins', 'build.json'].forEach(v => {
                 appendCont += `/${_options.cordovaPath}/${v}\n`
             })
             fs.writeFileSync(ignorePath, ignoreCont + appendCont)
