@@ -59,7 +59,6 @@ module.exports = (api, options) => {
             })
 
             resetCordovaWWWHandler(api)
-            fs.writeFileSync(api.resolve(`${_options.cordovaPath}/www/.gitignore`), _options.gitIgnoreContent)
             // 构建平台
             _options.platforms.forEach(v => {
                 api.exitLog(`构建${v}平台`)
@@ -101,4 +100,5 @@ function resetCordovaWWWHandler(api){
     fs.rmSync(api.resolve(`${defaultConfig.cordovaPath}/www`), {force: true, recursive: true})
     fs.mkdirSync(api.resolve(`${defaultConfig.cordovaPath}/www`))
     // fs.writeFileSync(api.resolve(`${defaultConfig.cordovaPath}/www/index.html`), '')
+    fs.writeFileSync(api.resolve(`${defaultConfig.cordovaPath}/www/.gitignore`), defaultConfig.gitIgnoreContent)
 }

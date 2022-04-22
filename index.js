@@ -46,6 +46,7 @@ module.exports = (api, options) => {
             process.env.CORDOVA_CONFIG_URL = api.resolve(`${defaultConfig.cordovaPath}/platforms/${args.platform}/app/src/main/res/xml/config.xml`)
 
             execCordovaCleanHandler(api, args)
+            resetCordovaWWWHandler(api)
             // 执行 cordova run
             info(`执行 cordova run ${args.platform}`)
             spawn.sync('cordova', [
@@ -212,6 +213,7 @@ function resetCordovaWWWHandler(api) {
     fs.rmSync(api.resolve(`${defaultConfig.cordovaPath}/www`), {force: true, recursive: true})
     fs.mkdirSync(api.resolve(`${defaultConfig.cordovaPath}/www`))
     // fs.writeFileSync(api.resolve(`${defaultConfig.cordovaPath}/www/index.html`), '')
+    fs.writeFileSync(api.resolve(`${defaultConfig.cordovaPath}/www/.gitignore`), defaultConfig.gitIgnoreContent)
 }
 
 /**
