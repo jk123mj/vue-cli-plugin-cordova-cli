@@ -59,7 +59,7 @@ module.exports = (api, options) => {
             })
 
             resetCordovaWWWHandler(api)
-
+            fs.writeFileSync(api.resolve(`${_options.cordovaPath}/www/.gitignore`), _options.gitIgnoreContent)
             // 构建平台
             _options.platforms.forEach(v => {
                 api.exitLog(`构建${v}平台`)
