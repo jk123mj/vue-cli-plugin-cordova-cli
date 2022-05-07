@@ -249,7 +249,7 @@ function copyFolderHandler(filePath, aimFilePath) {
                     }
                     const newFilePath = path.resolve(aimFilePath, _path.slice(_filePath.length + 1))
                     if (stats.isFile()) {
-                        fs.writeFileSync(newFilePath, fs.readFileSync(_path, {encoding: 'utf-8'}))
+                        fs.writeFileSync(newFilePath, fs.readFileSync(_path))
                     }
                     if (stats.isDirectory()) {
                         fs.mkdirSync(newFilePath)
